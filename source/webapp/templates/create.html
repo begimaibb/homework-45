@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create</title>
+</head>
+<body>
+
+<h1>Create Task</h1>
+
+<form action="/tasks/add/" method="post">
+    {% csrf_token %}
+    <label>Description</label><br/>
+    <textarea type="text" name="description"></textarea><br/>
+    <label>Status</label><br/>
+    <select name="status" id="status">
+        <option value="new">New</option>
+        <option value="in_progress">In progress</option>
+        <option value="done">Done</option>
+    </select><br/>
+    <label>Deadline</label><br/>
+    <input type="text" name="date"/><br/>
+    <input type="submit" value="Send"/>
+</form>
+<a href="/">Back to Main</a>
+</body>
+</html>

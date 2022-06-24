@@ -1,0 +1,29 @@
+[
+{
+    "model": "webapp.task",
+    "pk": 1,
+    "fields": {
+        "description": "thesis",
+        "status": "in_progress",
+        "date": "2022-06-23T16:46:25.080"
+    }
+},
+{
+    "model": "webapp.task",
+    "pk": 2,
+    "fields": {
+        "description": "paperwork",
+        "status": "in_progress",
+        "date": "2022-06-23T16:49:07.535"
+    }
+},
+{
+    "model": "webapp.task",
+    "pk": 3,
+    "fields": {
+        "description": "homework",
+        "status": "in_progress",
+        "date": "2022-07-05T00:00:00"
+    }
+}
+]
