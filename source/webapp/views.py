@@ -14,10 +14,11 @@ def create_task(request):
     if request.method == "GET":
         return render(request, "create.html")
     else:
+        name = request.POST.get("name")
         description = request.POST.get("description")
         status = request.POST.get("status")
         date = request.POST.get("date")
-        new_task = Task.objects.create(description=description, status=status, date=date)
+        new_task = Task.objects.create(nane=name, description=description, status=status, date=date)
         tasks = Task.objects.order_by("date")
         context = {"tasks": tasks}
         return render(request, "list_of_tasks.html", context)

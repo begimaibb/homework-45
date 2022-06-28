@@ -14,6 +14,7 @@
         <a href="/tasks/add/">Create task</a>
         <h1>To-Do List</h1>
         {% for task in tasks %}
+            <h3>{{ task.name }}</h3>
             <h3>{{ task.description }}</h3>
             <i>{{ task.status }}</i>
             <i>{{ task.date }}</i>
