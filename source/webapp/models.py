@@ -5,10 +5,10 @@ from django.db import models
 
 class Task(models.Model):
     status_choices = [('new', 'New'), ('in_progress', 'In progress'), ('done', 'Done')]
-    name = models.TextField(max_length=30, null=True, blank=False, verbose_name="Name")
-    description = models.TextField(max_length=100, null=False, blank=False, verbose_name="Description")
+    name = models.CharField(max_length=30, null=False, blank=False, verbose_name="Name")
+    description = models.TextField(max_length=100, null=True, blank=True, verbose_name="Description")
     status = models.CharField(max_length=20, choices=status_choices, default='1')
-    date = models.TextField(max_length=10, null=False, blank=False, verbose_name="Date")
+    date = models.DateField(max_length=10, null=True, blank=True, verbose_name="Date")
 
 
     def __str__(self):
