@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Delete task{% endblock %}
+
+{% block content %}
+<form action="" method="post">
+{% csrf_token %}
+    <h2>Are you sure you want to delete the task {{ task.name }}?</h2>
+    <button type="submit">Yes</button>
+</form>
+    <a href="{% url "task_view" task.pk %}">No</a>
+{% endblock %}
