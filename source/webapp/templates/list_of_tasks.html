@@ -7,8 +7,16 @@
 {% endblock %}
 {% block content %}
     <h1>To-Do List</h1>
-    {% for task in tasks %}
-        <h3>{{ task.name }}</h3>
-        <p><a href="{% url "task_view" task.pk %}">More</a></p>
-    {% endfor %}
+    <div class="row">
+        {% for task in tasks %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ task.name }}</h5>
+                        <a href="{% url "task_view" task.pk %}" class="card-link">More</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

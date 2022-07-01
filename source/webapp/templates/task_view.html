@@ -4,10 +4,12 @@
         <a class="nav-link" href="{% url "create" %}">Create task</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Edit</a>
+        <a class="nav-link" href="{% url "update_task" task.pk %}">Edit</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Delete</a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#articleDeleteModal">
+            Delete
+        </button>
     </li>
 {% endblock %}
 
@@ -27,4 +29,26 @@
     </p>
 
     <a href="{% url "index" %}">To Main</a>
+
+       <div class="modal fade" id="articleDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="articleDeleteModal">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the task {{ task.name }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <form action="{% url "delete_task" task.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
