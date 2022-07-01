@@ -1,23 +1,34 @@
+{#{% extends "base.html" %}#}
+{#{% block title %}Create task{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <h1>Create Task</h1>#}
+{#    <form action="" method="post">#}
+{#        {% csrf_token %}#}
+{#        <label>Name</label><br/>#}
+{#        <input type="text" name="name"/><br/>#}
+{#        <label>Description</label><br/>#}
+{#        <textarea type="text" name="description"></textarea><br/>#}
+{#        <label>Status</label><br/>#}
+{#        <select name="status" id="status">#}
+{#            <option value="new">New</option>#}
+{#            <option value="in_progress">In progress</option>#}
+{#            <option value="done">Done</option>#}
+{#        </select><br/>#}
+{#        <label>Deadline</label><br/>#}
+{#        <input type="text" name="date"/><br/>#}
+{#        <input type="submit" value="Send"/>#}
+{#    </form>#}
+{#    <a href="/">Back to Main</a>#}
+{#{% endblock %}#}
+
 {% extends "base.html" %}
 {% block title %}Create task{% endblock %}
 
 {% block content %}
-    <h1>Create Task</h1>
+    <h1>Create task</h1>
     <form action="" method="post">
-        {% csrf_token %}
-        <label>Name</label><br/>
-        <input type="text" name="name"/><br/>
-        <label>Description</label><br/>
-        <textarea type="text" name="description"></textarea><br/>
-        <label>Status</label><br/>
-        <select name="status" id="status">
-            <option value="new">New</option>
-            <option value="in_progress">In progress</option>
-            <option value="done">Done</option>
-        </select><br/>
-        <label>Deadline</label><br/>
-        <input type="text" name="date"/><br/>
-        <input type="submit" value="Send"/>
+        {% include "partial/form.html" with button_text="Create" %}
     </form>
-    <a href="/">Back to Main</a>
+    <a href="{% url "index" %}">To Main</a>
 {% endblock %}
