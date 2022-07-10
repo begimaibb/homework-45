@@ -24,8 +24,14 @@
     <p>
         Status: {{ task.status }}
     </p>
-        <p>
-        Deadline: {{ task.date }}
+    <p>
+        Type: {{ task.type }}
+    </p>
+    <p>
+        Created date: {{ task.created_at }}
+    </p>
+    <p>
+        Updated date: {{ task.updated_at }}
     </p>
 
     <a href="{% url "index" %}">To Main</a>
