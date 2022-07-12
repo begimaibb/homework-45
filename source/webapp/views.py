@@ -8,11 +8,13 @@ from webapp.models import Task
 from django.views.generic import TemplateView
 
 
-class IndexView(View):
-    def get(self, request, *args, **kwargs):
+class IndexView(TemplateView):
+    template_name = "list_of_tasks.html"
+
+    def get_context_data(self, **kwargs):
         tasks = Task.objects.order_by("name")
-        context = {"tasks": tasks}
-        return render(request, "list_of_tasks.html", context)
+        kwargs["tasks"] = tasks
+        return super().get_context_data(**kwargs)
 
 
 class TaskView(TemplateView):
