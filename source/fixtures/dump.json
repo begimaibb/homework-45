@@ -1,128 +1,143 @@
 [
 {
-    "model": "webapp.status",
-    "pk": 1,
-    "fields": {
-        "created_at": "2022-07-10T05:36:20.586Z",
-        "updated_at": "2022-07-10T05:36:20.586Z",
-        "status_name": "New"
-    }
+  "model": "webapp.status",
+  "pk": 1,
+  "fields": {
+    "created_at": "2022-07-11T17:03:07.364Z",
+    "updated_at": "2022-07-11T17:06:52.881Z",
+    "status_name": "New"
+  }
 },
 {
-    "model": "webapp.status",
-    "pk": 2,
-    "fields": {
-        "created_at": "2022-07-10T05:37:22.184Z",
-        "updated_at": "2022-07-10T05:37:22.184Z",
-        "status_name": "In Progress"
-    }
+  "model": "webapp.status",
+  "pk": 2,
+  "fields": {
+    "created_at": "2022-07-11T17:04:13.461Z",
+    "updated_at": "2022-07-11T17:06:38.820Z",
+    "status_name": "In Progress"
+  }
 },
 {
-    "model": "webapp.status",
-    "pk": 3,
-    "fields": {
-        "created_at": "2022-07-10T05:37:33.051Z",
-        "updated_at": "2022-07-10T05:37:33.051Z",
-        "status_name": "Done"
-    }
+  "model": "webapp.status",
+  "pk": 3,
+  "fields": {
+    "created_at": "2022-07-11T17:06:01.298Z",
+    "updated_at": "2022-07-11T17:06:19.206Z",
+    "status_name": "Done"
+  }
 },
 {
-    "model": "webapp.type",
-    "pk": 1,
-    "fields": {
-        "created_at": "2022-07-10T05:37:56.684Z",
-        "updated_at": "2022-07-10T05:37:56.684Z",
-        "type_name": "Task"
-    }
+  "model": "webapp.type",
+  "pk": 1,
+  "fields": {
+    "created_at": "2022-07-11T17:04:33.741Z",
+    "updated_at": "2022-07-11T17:04:33.741Z",
+    "type_name": "Task"
+  }
 },
 {
-    "model": "webapp.type",
-    "pk": 2,
-    "fields": {
-        "created_at": "2022-07-10T05:38:12.583Z",
-        "updated_at": "2022-07-10T05:38:12.584Z",
-        "type_name": "Bug"
-    }
+  "model": "webapp.type",
+  "pk": 2,
+  "fields": {
+    "created_at": "2022-07-11T17:04:47.037Z",
+    "updated_at": "2022-07-11T17:04:47.037Z",
+    "type_name": "Bug"
+  }
 },
 {
-    "model": "webapp.type",
-    "pk": 3,
-    "fields": {
-        "created_at": "2022-07-10T05:38:28.353Z",
-        "updated_at": "2022-07-10T05:38:28.353Z",
-        "type_name": "Enhancement"
-    }
+  "model": "webapp.type",
+  "pk": 3,
+  "fields": {
+    "created_at": "2022-07-11T17:04:53.336Z",
+    "updated_at": "2022-07-11T17:04:53.336Z",
+    "type_name": "Enhancement"
+  }
 },
 {
-    "model": "webapp.task",
-    "pk": 1,
-    "fields": {
-        "created_at": "2022-07-10T05:39:14.726Z",
-        "updated_at": "2022-07-10T05:39:26.027Z",
-        "name": "write a thesis",
-        "description": "write a thesis until Aug 20",
-        "status": 2,
-        "type": 1
-    }
+  "model": "webapp.task",
+  "pk": 1,
+  "fields": {
+    "created_at": "2022-07-11T17:07:05.737Z",
+    "updated_at": "2022-07-12T03:35:31.568Z",
+    "name": "finish homework",
+    "description": "finish homework 50",
+    "status": 1,
+    "type": [
+      1,
+      2
+    ]
+  }
 },
 {
-    "model": "webapp.task",
-    "pk": 2,
-    "fields": {
-        "created_at": "2022-07-10T05:40:37.641Z",
-        "updated_at": "2022-07-10T05:40:37.642Z",
-        "name": "apply for a job at upwork",
-        "description": "apply for a job at Upwork",
-        "status": 1,
-        "type": 1
-    }
+  "model": "webapp.task",
+  "pk": 5,
+  "fields": {
+    "created_at": "2022-07-12T10:19:25.541Z",
+    "updated_at": "2022-07-12T10:19:25.541Z",
+    "name": "finish the report",
+    "description": "add new charts, fix calculations",
+    "status": 2,
+    "type": [
+      1,
+      2,
+      3
+    ]
+  }
 },
 {
-    "model": "webapp.task",
-    "pk": 3,
-    "fields": {
-        "created_at": "2022-07-10T05:41:47.085Z",
-        "updated_at": "2022-07-10T05:41:47.085Z",
-        "name": "finish the report",
-        "description": "finish the report, add new charts",
-        "status": 2,
-        "type": 3
-    }
+  "model": "webapp.task",
+  "pk": 6,
+  "fields": {
+    "created_at": "2022-07-12T10:21:03.920Z",
+    "updated_at": "2022-07-12T10:21:03.920Z",
+    "name": "visa application",
+    "description": "fill out the documents until July 30",
+    "status": 2,
+    "type": [
+      1
+    ]
+  }
 },
 {
-    "model": "webapp.task",
-    "pk": 4,
-    "fields": {
-        "created_at": "2022-07-10T05:52:02.823Z",
-        "updated_at": "2022-07-10T05:52:02.823Z",
-        "name": "pay the bills",
-        "description": "collect all the bill statements and pay before July 25",
-        "status": 1,
-        "type": 1
-    }
+  "model": "webapp.task",
+  "pk": 7,
+  "fields": {
+    "created_at": "2022-07-12T10:21:50.457Z",
+    "updated_at": "2022-07-12T10:21:50.457Z",
+    "name": "write a thesis",
+    "description": "finish the last chapters of the thesis",
+    "status": 2,
+    "type": [
+      3
+    ]
+  }
 },
 {
-    "model": "webapp.task",
-    "pk": 5,
-    "fields": {
-        "created_at": "2022-07-10T05:52:45.820Z",
-        "updated_at": "2022-07-10T05:52:45.820Z",
-        "name": "finish the homework 49",
-        "description": "finish the homework 49, fix the bugs",
-        "status": 2,
-        "type": 2
-    }
+  "model": "webapp.task",
+  "pk": 8,
+  "fields": {
+    "created_at": "2022-07-12T10:22:46.224Z",
+    "updated_at": "2022-07-12T10:22:46.224Z",
+    "name": "apply for a job in upwork",
+    "description": "send 3 proposals in upwork",
+    "status": 1,
+    "type": [
+      1
+    ]
+  }
 },
 {
-    "model": "webapp.task",
-    "pk": 6,
-    "fields": {
-        "created_at": "2022-07-10T05:54:48.799Z",
-        "updated_at": "2022-07-10T05:54:48.799Z",
-        "name": "prepare documents for the visa",
-        "description": "prepare documents for the visa, fill out the medical form",
-        "status": 2,
-        "type": 1
-    }
+  "model": "webapp.task",
+  "pk": 9,
+  "fields": {
+    "created_at": "2022-07-12T10:24:40.845Z",
+    "updated_at": "2022-07-12T10:24:40.845Z",
+    "name": "do a medical check-up",
+    "description": "do an annual medical check-up, blood tests",
+    "status": 3,
+    "type": [
+      1
+    ]
+  }
 }
 ]
