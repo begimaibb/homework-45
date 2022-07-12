@@ -12,8 +12,9 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card">
                     <div class="card-body">
+                        <p>Type(s): {% for type in task.type.all %}{{ type.type_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
                         <h5 class="card-title">{{ task.name }}</h5>
-                        <a href="{% url "task_view" task.pk %}" class="card-link">More</a>
+                        <a href="{% url "task_view" task.pk %}" class="card-link" style="color: mediumpurple">More</a>
                     </div>
                 </div>
             </div>

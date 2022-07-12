@@ -7,7 +7,7 @@
         <a class="nav-link" href="{% url "update_task" task.pk %}">Edit</a>
     </li>
     <li class="nav-item">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#articleDeleteModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskDeleteModal">
             Delete
         </button>
     </li>
@@ -25,7 +25,7 @@
         Status: {{ task.status }}
     </p>
     <p>
-        Type: {{ task.type }}
+        Type(s): {% for type in task.type.all %}{{ type }} {% endfor %}
     </p>
     <p>
         Created date: {{ task.created_at }}
@@ -34,7 +34,7 @@
         Updated date: {{ task.updated_at }}
     </p>
 
-    <a href="{% url "index" %}">To Main</a>
+    <a href="{% url "index" %}" style="color: mediumpurple">To Main</a>
 
        <div class="modal fade" id="taskDeleteModal" tabindex="-1" aria-labelledby="taskDeleteModalLabel"
          aria-hidden="true">
