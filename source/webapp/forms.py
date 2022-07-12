@@ -9,4 +9,5 @@ class TaskForm(forms.Form):
     description = forms.CharField(max_length=100, required=True, label='Description',
                                   widget=widgets.Textarea(attrs={"cols": 40, "rows": 3}))
     status = forms.ModelChoiceField(queryset=Status.objects.all())
-    type = forms.ModelChoiceField(queryset=Type.objects.all())
+    type = forms.ModelMultipleChoiceField(queryset=Type.objects.all(), widget=forms.CheckboxSelectMultiple,
+                                          required=False, label='Types')

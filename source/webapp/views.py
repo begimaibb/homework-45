@@ -36,12 +36,13 @@ class CreateTask(View):
         self.task = Task()
         form = TaskForm(data=request.POST)
         if form.is_valid():
+            type = form.cleaned_data.pop('type')
             self.task.name = form.cleaned_data.get("name")
             self.task.description = form.cleaned_data.get("description")
             self.task.status = form.cleaned_data.get("status")
-            self.task.type = form.cleaned_data.get("type")
             self.task.new_task = Task.objects.create(name=self.task.name, description=self.task.description,
-                                                     status=self.task.status, type=self.task.type)
+                                                     status=self.task.status)
+            self.task.new_task.type.set(type)
             return redirect("task_view", pk=self.task.new_task.pk)
         return render(request, "create.html", {"form": form})
 
@@ -59,7 +60,7 @@ class UpdateTask(View):
                 "name": self.task.name,
                 "description": self.task.description,
                 "status": self.task.status,
-                "type": self.task.type
+                "type": self.task.type.all()
             })
             return render(request, "update.html", {"form": form})
 
@@ -69,7 +70,7 @@ class UpdateTask(View):
             self.task.name = form.cleaned_data.get("name")
             self.task.description = form.cleaned_data.get("description")
             self.task.status = form.cleaned_data.get("status")
-            self.task.type = form.cleaned_data.get("type")
+            self.task.type.set(form.cleaned_data.pop("type"))
             self.task.save()
             return redirect("task_view", pk=self.task.pk)
         return render(request, "update.html", {"form": form})
