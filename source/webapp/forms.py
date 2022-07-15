@@ -1,13 +1,23 @@
+import re
 from django import forms
+from webapp.models import Type, Task
+from django.core.exceptions import ValidationError
 from django.forms import widgets
-from webapp.models import Status
-from webapp.models import Type
 
 
-class TaskForm(forms.Form):
-    name = forms.CharField(max_length=50, required=True, label='Name')
-    description = forms.CharField(max_length=100, required=True, label='Description',
-                                  widget=widgets.Textarea(attrs={"cols": 40, "rows": 3}))
-    status = forms.ModelChoiceField(queryset=Status.objects.all())
-    type = forms.ModelMultipleChoiceField(queryset=Type.objects.all(), widget=forms.CheckboxSelectMultiple,
-                                          required=False, label='Types')
+class TaskForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ["name", "description", "status", "type"]
+        widgets = {
+            "type": widgets.CheckboxSelectMultiple,
+        }
+
+    def clean(self):
+        name = self.cleaned_data.get("name")
+        description = self.cleaned_data.get("description")
+        if not re.match("[a-zA-Zа-яА-Я]+$", name):
+            self.add_error("name", ValidationError("The name should include only letters"))
+        if not re.match("a-zA-Zа-яА-Я]+$", description):
+            self.add_error("description", ValidationError("The description should include only letters"))
