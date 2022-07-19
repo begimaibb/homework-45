@@ -1,0 +1,23 @@
+from webapp.models import Task, Type, Status, BaseModel
+import datetime
+
+#queryset1
+now=timezone.now()
+month_ago=timezone.now()-timedelta(days=30)
+Task.objects.filter(updated_at__range=[month_ago, now], status__status_name__iexact='done')
+
+#queryset2
+type1=Task.objects.filter(type__type_name__iexact='bug')
+type2=Task.objects.filter(type__type_name__iexact='enhancement')
+types=type1|type2
+status1=Task.objects.filter(status__status_name__iexact='in process')
+status2=Task.objects.filter(status__status_name__iexact='new')
+statuses=status1|status2
+types&statuses
+
+#queryset3
+if_contains=Task.objects.filter(name__icontains='bug').exclude(status__status_name__iexact='done')
+if_type=Task.objects.filter(type__type_name__iexact='bug').exclude(status__status_name__iexact='done')
+if_contains | if_type
+
+
