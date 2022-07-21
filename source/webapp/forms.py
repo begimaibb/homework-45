@@ -22,3 +22,8 @@ class TaskForm(forms.ModelForm):
         if not re.match("^[a-zA-Zа-яА-Я\s]+$", description):
             self.add_error("description", ValidationError("The description should include only letters"))
         return super().clean()
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=50, required=False, label='Find')
+
