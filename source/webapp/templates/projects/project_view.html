@@ -1,0 +1,55 @@
+{% extends "tasks/base.html" %}
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "create" %}">Create project</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "create_project" project.pk %}">Edit</a>
+    </li>
+    <li class="nav-item">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">
+            Delete
+        </button>
+    </li>
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        Project: {{ project.name }}
+    </p>
+    <p>
+        Description: {{ project.description }}
+    </p>
+    <p>
+        Date started: {{ project.date_started }}
+    </p>
+    <p>
+        Date finished: {{ project.date_finished }}
+    </p>
+
+    <a href="{% url "index" %}" style="color: mediumpurple">To Main</a>
+    <a href="{% url "project_index" %}" style="color: mediumpurple">To Projects</a>
+
+       <div class="modal fade" id="projectDeleteModal" tabindex="-1" aria-labelledby="projectDeleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="projectDeleteModal">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the project {{ project.name }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <form action="{% url "delete_project" project.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
