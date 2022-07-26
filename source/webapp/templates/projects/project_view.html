@@ -1,10 +1,11 @@
 {% extends "tasks/base.html" %}
 {% block nav %}
     <li class="nav-item">
-        <a class="nav-link" href="{% url "create" %}">Create project</a>
+        <a class="nav-link" href="{% url "create_project" %}">Create project</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{% url "create_project" project.pk %}">Edit</a>
+{#        <a class="nav-link" href="{% url "create_project" project.pk %}">Edit</a>#}
+        <a class="nav-link" href="#">Edit</a>
     </li>
     <li class="nav-item">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">
@@ -27,29 +28,51 @@
     <p>
         Date finished: {{ project.date_finished }}
     </p>
+    <h1>Project To-Do List</h1>
+{#    <div class="row">#}
+{#        {% for task in tasks %}#}
+{#            <div class="col-12 col-md-6 col-lg-4">#}
+{#                <div class="card">#}
+{#                    <div class="card-body">#}
+{#                        <p>Type(s): {% for type in task.type.all %}{{ type.type_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>#}
+{#                        <h5 class="card-title">{{ task.name }}</h5>#}
+{#                        <a href="{% url "task_view" task.pk %}" class="card-link" style="color: mediumpurple">More</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% empty %}#}
+{#        {% endfor %}#}
+{#    {% if is_paginated %}#}
+{#        {% include "partial/pagination.html" %}#}
+{#    {% endif %}#}
+{#    </div>#}
 
-    <a href="{% url "index" %}" style="color: mediumpurple">To Main</a>
-    <a href="{% url "project_index" %}" style="color: mediumpurple">To Projects</a>
+    {% for task in tasks %}
+            <p>{{ tasks.name }}</p>
+    {% empty %}
+        <p>There are no tasks</p>
+    {% endfor %}
+    <a href="{% url "project_index" %}" style="color: mediumpurple">To Main</a>
 
-       <div class="modal fade" id="projectDeleteModal" tabindex="-1" aria-labelledby="projectDeleteModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="projectDeleteModal">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete the project {{ project.name }}?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <form action="{% url "delete_project" project.pk %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Yes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+{#       <div class="modal fade" id="projectDeleteModal" tabindex="-1" aria-labelledby="projectDeleteModalLabel"#}
+{#         aria-hidden="true">#}
+{#        <div class="modal-dialog">#}
+{#            <div class="modal-content">#}
+{#                <div class="modal-header">#}
+{#                    <h5 class="modal-title" id="projectDeleteModal">Modal title</h5>#}
+{#                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+{#                </div>#}
+{#                <div class="modal-body">#}
+{#                    Are you sure you want to delete the project {{ project.name }}?#}
+{#                </div>#}
+{#                <div class="modal-footer">#}
+{#                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>#}
+{#                    <form action="{% url "delete_project" project.pk %}" method="post">#}
+{#                        {% csrf_token %}#}
+{#                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Yes</button>#}
+{#                    </form>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
     </div>
 {% endblock %}
