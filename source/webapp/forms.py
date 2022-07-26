@@ -1,6 +1,6 @@
 import re
 from django import forms
-from webapp.models import Type, Task
+from webapp.models import Type, Task, Project
 from django.core.exceptions import ValidationError
 from django.forms import widgets
 
@@ -26,4 +26,11 @@ class TaskForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=50, required=False, label='Find')
+
+
+class ProjectForm(forms.ModelForm):
+
+    class Meta:
+        model = Project
+        fields = ["name", "description", "date_started", "date_finished"]
 
