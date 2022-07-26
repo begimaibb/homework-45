@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 
 # Create your views here.
 from django.utils.http import urlencode
@@ -61,3 +61,6 @@ class CreateProjectView(CreateView):
         form.instance.project = project
         print(form.instance)
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("project_view", kwargs={"pk": self.object.project.pk})
