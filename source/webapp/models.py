@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 # Create your models here.
 
@@ -36,11 +36,33 @@ class Type(BaseModel):
         verbose_name_plural = "Types"
 
 
+class Project(models.Model):
+    date_started = models.DateField(auto_now_add=False, null=False, blank=False, verbose_name="Date created")
+    date_finished = models.DateField(auto_now_add=False, null=True, blank=True, verbose_name="Date finished")
+    name = models.CharField(max_length=50, null=False, blank=False, verbose_name="Name")
+    description = models.TextField(max_length=100, null=True, blank=False, verbose_name="Description")
+
+    def __str__(self):
+        return f"{self.id}. {self.name}: {self.description}"
+
+    def get_absolute_url(self):
+        return reverse("project_view", kwargs={"pk": self.pk})
+
+    def upper(self):
+        return self.title.upper()
+
+    class Meta:
+        db_table = "projects"
+        verbose_name = "Project"
+        verbose_name_plural = "Projects"
+
+
 class Task(BaseModel):
     name = models.CharField(max_length=50, null=False, blank=False, verbose_name="Name")
     description = models.TextField(max_length=100, null=True, blank=True, verbose_name="Description")
     status = models.ForeignKey("webapp.Status", on_delete=models.PROTECT, related_name='status')
     type = models.ManyToManyField("webapp.Type", related_name="tasks", blank=True)
+    project = models.ForeignKey("webapp.Project", on_delete=models.PROTECT, related_name='project', default=1)
 
     def __str__(self):
         return f"{self.id}. {self.name}, {self.description} {self.status} {self.type}"
@@ -49,3 +71,4 @@ class Task(BaseModel):
         db_table = "tasks"
         verbose_name = "Task"
         verbose_name_plural = "Tasks"
+
