@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.http import urlencode
 from django.views import View
 
-from webapp.base_view import FormView as CustomFormView, ListView as CustomListView
+# from webapp.base_view import FormView as CustomFormView, ListView as CustomListView
 from webapp.forms import TaskForm, SearchForm
 from webapp.models import Task
 from django.views.generic import TemplateView, ListView
@@ -13,7 +13,7 @@ from django.views.generic import TemplateView, ListView
 
 class IndexView(ListView):
     model = Task
-    template_name = "list_of_tasks.html"
+    template_name = "tasks/list_of_tasks.html"
     context_object_name = "tasks"
     ordering = "-updated_at"
     paginate_by = 10
@@ -46,7 +46,7 @@ class IndexView(ListView):
 
 
 class TaskView(TemplateView):
-    template_name = "task_view.html"
+    template_name = "tasks/task_view.html"
 
     def get_context_data(self, **kwargs):
         pk = kwargs.get("pk")
@@ -60,7 +60,7 @@ class CreateTask(View):
     def get(self, request, *args, **kwargs):
         if request.method == "GET":
             form = TaskForm()
-            return render(request, "create.html", {"form": form})
+            return render(request, "tasks/create.html", {"form": form})
 
     def post(self, request, *args, **kwargs):
         self.task = Task()
@@ -74,7 +74,7 @@ class CreateTask(View):
                                                      status=self.task.status)
             self.task.new_task.type.set(type)
             return redirect("task_view", pk=self.task.new_task.pk)
-        return render(request, "create.html", {"form": form})
+        return render(request, "tasks/create.html", {"form": form})
 
 
 class UpdateTask(View):
@@ -92,7 +92,7 @@ class UpdateTask(View):
                 "status": self.task.status,
                 "type": self.task.type.all()
             })
-            return render(request, "update.html", {"form": form})
+            return render(request, "tasks/update.html", {"form": form})
 
     def post(self, request, *args, **kwargs):
         form = TaskForm(data=request.POST)
@@ -103,14 +103,14 @@ class UpdateTask(View):
             self.task.type.set(form.cleaned_data.pop("type"))
             self.task.save()
             return redirect("task_view", pk=self.task.pk)
-        return render(request, "update.html", {"form": form})
+        return render(request, "tasks/update.html", {"form": form})
 
 
 class DeleteTask(View):
     def get(self, request, *args, **kwargs):
         pk = kwargs.get("pk")
         self.task = get_object_or_404(Task, pk=pk)
-        return render(request, "delete.html", {"task": self.task})
+        return render(request, "tasks/delete.html", {"task": self.task})
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get("pk")
@@ -118,4 +118,4 @@ class DeleteTask(View):
         self.task.delete()
         tasks = Task.objects.order_by("name")
         context = {"tasks": tasks}
-        return render(request, "list_of_tasks.html", context)
+        return render(request, "tasks/list_of_tasks.html", context)
