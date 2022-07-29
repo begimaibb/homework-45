@@ -1,11 +1,11 @@
 {% extends "tasks/base.html" %}
-{% block title %}Delete Task{% endblock %}
+{% block title %}Delete Project{% endblock %}
 
 {% block content %}
-    <h2>Input the name of the task ({{ task.name }}) to delete</h2>
+    <h2>Input the name of the project ({{ project.name }}) to delete</h2>
     <form action="" method="post">
         {% csrf_token %}
         {% include "partial/form.html" with button_text="Delete" %}
     </form>
-    <a href="{% url "task_view" task.pk %}">Back</a>
+    <a href="{% url "project_view" project.pk %}">Back</a>
 {% endblock %}

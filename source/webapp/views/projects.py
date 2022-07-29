@@ -1,12 +1,13 @@
 from django.db.models import Q
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 
 # Create your views here.
 from django.utils.http import urlencode
 
-from webapp.forms import TaskForm, SearchForm, ProjectForm
+from webapp.forms import TaskForm, SearchForm, ProjectForm, UserProjectForm, ProjectDeleteForm
 from webapp.models import Task, Project
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
 class ProjectIndexView(ListView):
@@ -49,7 +50,9 @@ class ProjectView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['tasks'] = self.object.tasks.order_by("-created_at")
+        id = self.object.id
+        print(id)
+        context['tasks'] = Task.objects.filter(project_id=id)
         return context
 
 
@@ -58,13 +61,10 @@ class CreateProjectView(CreateView):
     template_name = "projects/create.html"
 
     def form_valid(self, form):
-        project = get_object_or_404(Project, pk=self.kwargs.get("pk"))
-        form.instance.project = project
-        print(form.instance)
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse("project_view", kwargs={"pk": self.object.project.pk})
+        project = form.save(commit=False)
+        project.save()
+        form.save_m2m()
+        return redirect("project_view", pk=project.pk)
 
 
 class UpdateProjectView(UpdateView):
@@ -72,16 +72,22 @@ class UpdateProjectView(UpdateView):
     template_name = "projects/update.html"
     model = Project
 
-    def get_success_url(self):
-        return reverse("project_view", kwargs={"pk": self.object.project.pk})
+    def get_form_class(self):
+        if self.request.GET.get("is_admin"):
+            return ProjectForm
+        return UserProjectForm
 
 
 class DeleteProjectView(DeleteView):
     model = Project
+    template_name = "projects/delete.html"
+    success_url = reverse_lazy('index')
+    form_class = ProjectDeleteForm
 
-    def get(self, request, *args, **kwargs):
-        return super().delete(request, *args, **kwargs)
-
-    def get_success_url(self):
-        return reverse("project_view", kwargs={"pk": self.object.project.pk})
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST, instance=self.get_object())
+        if form.is_valid():
+            return self.delete(request, *args, **kwargs)
+        else:
+            return self.get(request, *args, **kwargs)
 
