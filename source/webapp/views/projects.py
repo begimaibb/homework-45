@@ -6,7 +6,7 @@ from django.utils.http import urlencode
 
 from webapp.forms import TaskForm, SearchForm, ProjectForm
 from webapp.models import Task, Project
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
 class ProjectIndexView(ListView):
@@ -49,6 +49,7 @@ class ProjectView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # context['tasks'] = self.object.tasks.order_by("-created_at")
         return context
 
 
@@ -64,3 +65,23 @@ class CreateProjectView(CreateView):
 
     def get_success_url(self):
         return reverse("project_view", kwargs={"pk": self.object.project.pk})
+
+
+class UpdateProjectView(UpdateView):
+    form_class = ProjectForm
+    template_name = "projects/update.html"
+    model = Project
+
+    def get_success_url(self):
+        return reverse("project_view", kwargs={"pk": self.object.project.pk})
+
+
+class DeleteProjectView(DeleteView):
+    model = Project
+
+    def get(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse("project_view", kwargs={"pk": self.object.project.pk})
+
