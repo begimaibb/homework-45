@@ -1,8 +1,8 @@
-{% extends "tasks/base.html" %}
+{% extends "tasks/../base.html" %}
 {% load static %}
 {% block nav %}
     <li class="nav-item">
-        <a class="nav-link" href="{% url "create" %}">Create task</a>
+        <a class="nav-link" href="{% url "webapp:create" %}">Create task</a>
     </li>
 {% endblock %}
 {% block content %}
@@ -15,7 +15,7 @@
                     <div class="card-body">
                         <p>Type(s): {% for type in task.type.all %}{{ type.type_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
                         <h5 class="card-title">{{ task.name }}</h5>
-                        <a href="{% url "task_view" task.pk %}" class="card-link" style="color: mediumpurple">More</a>
+                        <a href="{% url "webapp:task_view" task.pk %}" class="card-link" style="color: mediumpurple">More</a>
                     </div>
                 </div>
             </div>

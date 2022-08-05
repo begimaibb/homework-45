@@ -1,10 +1,10 @@
-{% extends "tasks/base.html" %}
+{% extends "tasks/../base.html" %}
 {% block nav %}
     <li class="nav-item">
-        <a class="nav-link" href="{% url "create" %}">Create task</a>
+        <a class="nav-link" href="{% url "webapp:create" %}">Create task</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{% url "update_task" task.pk %}">Edit</a>
+        <a class="nav-link" href="{% url "webapp:update_task" task.pk %}">Edit</a>
     </li>
     <li class="nav-item">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskDeleteModal">
@@ -34,7 +34,7 @@
         Updated date: {{ task.updated_at }}
     </p>
 
-    <a href="{% url "index" %}" style="color: mediumpurple">To Main</a>
+    <a href="{% url "webapp:index" %}" style="color: mediumpurple">To Main</a>
 
        <div class="modal fade" id="taskDeleteModal" tabindex="-1" aria-labelledby="taskDeleteModalLabel"
          aria-hidden="true">
@@ -49,7 +49,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <form action="{% url "delete_task" task.pk %}" method="post">
+                    <form action="{% url "webapp:delete_task" task.pk %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Yes</button>
                     </form>

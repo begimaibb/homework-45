@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -56,38 +57,38 @@ class ProjectView(DetailView):
         return context
 
 
-class CreateProjectView(CreateView):
+class CreateProjectView(LoginRequiredMixin, CreateView):
     form_class = ProjectForm
     template_name = "projects/create.html"
 
-    def form_valid(self, form):
-        project = form.save(commit=False)
-        project.save()
-        form.save_m2m()
-        return redirect("project_view", pk=project.pk)
+    # def form_valid(self, form):
+    #     project = form.save(commit=False)
+    #     project.save()
+    #     form.save_m2m()
+    #     return redirect("project_view", pk=project.pk)
 
 
-class UpdateProjectView(UpdateView):
+class UpdateProjectView(LoginRequiredMixin, UpdateView):
     form_class = ProjectForm
     template_name = "projects/update.html"
     model = Project
 
-    def get_form_class(self):
-        if self.request.GET.get("is_admin"):
-            return ProjectForm
-        return UserProjectForm
+    # def get_form_class(self):
+    #     if self.request.GET.get("is_admin"):
+    #         return ProjectForm
+    #     return UserProjectForm
 
 
-class DeleteProjectView(DeleteView):
+class DeleteProjectView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = "projects/delete.html"
     success_url = reverse_lazy('index')
     form_class = ProjectDeleteForm
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(data=request.POST, instance=self.get_object())
-        if form.is_valid():
-            return self.delete(request, *args, **kwargs)
-        else:
-            return self.get(request, *args, **kwargs)
+    # def post(self, request, *args, **kwargs):
+    #     form = self.form_class(data=request.POST, instance=self.get_object())
+    #     if form.is_valid():
+    #         return self.delete(request, *args, **kwargs)
+    #     else:
+    #         return self.get(request, *args, **kwargs)
 

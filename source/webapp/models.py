@@ -46,7 +46,7 @@ class Project(models.Model):
         return f"{self.id} {self.name}: {self.description}"
 
     def get_absolute_url(self):
-        return reverse("project_view", kwargs={"pk": self.pk})
+        return reverse("webapp:project_view", kwargs={"pk": self.pk})
 
     def upper(self):
         return self.title.upper()
@@ -62,10 +62,13 @@ class Task(BaseModel):
     description = models.TextField(max_length=100, null=True, blank=True, verbose_name="Description")
     status = models.ForeignKey("webapp.Status", on_delete=models.PROTECT, related_name='status')
     type = models.ManyToManyField("webapp.Type", related_name="tasks", blank=True)
-    project = models.ForeignKey("webapp.Project", on_delete=models.PROTECT, related_name='project')
+    project = models.ForeignKey("webapp.Project", on_delete=models.CASCADE, related_name='project')
 
     def __str__(self):
         return f"{self.id}. {self.name}, {self.description} {self.status} {self.type}"
+
+    def get_absolute_url(self):
+        return reverse("webapp:task_view", kwargs={"pk": self.pk})
 
     class Meta:
         db_table = "tasks"

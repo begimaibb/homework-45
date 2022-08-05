@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -54,37 +55,37 @@ class TaskView(TemplateView):
         return super().get_context_data(**kwargs)
 
 
-class CreateTaskView(CreateView):
+class CreateTaskView(LoginRequiredMixin, CreateView):
     form_class = TaskForm
     template_name = "tasks/create.html"
 
-    def form_valid(self, form):
-        task = form.save(commit=False)
-        task.save()
-        form.save_m2m()
-        return redirect("task_view", pk=task.pk)
+    # def form_valid(self, form):
+    #     task = form.save(commit=False)
+    #     task.save()
+    #     form.save_m2m()
+    #     return redirect("webapp:project_view", pk=task.pk)
 
 
-class UpdateTaskView(UpdateView):
+class UpdateTaskView(LoginRequiredMixin, UpdateView):
     form_class = TaskForm
     template_name = "tasks/update.html"
     model = Task
 
-    def get_form_class(self):
-        if self.request.GET.get("is_admin"):
-            return TaskForm
-        return UserTaskForm
+    # def get_form_class(self):
+    #     if self.request.GET.get("is_admin"):
+    #         return TaskForm
+    #     return UserTaskForm
 
 
-class DeleteTaskView(DeleteView):
+class DeleteTaskView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "tasks/delete.html"
     success_url = reverse_lazy('index')
     form_class = TaskDeleteForm
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(data=request.POST, instance=self.get_object())
-        if form.is_valid():
-            return self.delete(request, *args, **kwargs)
-        else:
-            return self.get(request, *args, **kwargs)
+    # def post(self, request, *args, **kwargs):
+    #     form = self.form_class(data=request.POST, instance=self.get_object())
+    #     if form.is_valid():
+    #         return self.delete(request, *args, **kwargs)
+    #     else:
+    #         return self.get(request, *args, **kwargs)

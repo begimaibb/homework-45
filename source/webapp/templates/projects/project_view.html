@@ -1,10 +1,10 @@
-{% extends "tasks/base.html" %}
+{% extends "tasks/../base.html" %}
 {% block nav %}
     <li class="nav-item">
-        <a class="nav-link" href="{% url "create_project" %}">Create project</a>
+        <a class="nav-link" href="{% url "webapp:create_project" %}">Create project</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{% url "update_project" project.pk %}">Edit</a>
+        <a class="nav-link" href="{% url "webapp:update_project" project.pk %}">Edit</a>
     </li>
     <li class="nav-item">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">
@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <p>Type(s): {% for type in task.type.all %}{{ type.type_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
                         <h5 class="card-title">{{ task.name }}</h5>
-                        <a href="{% url "task_view" task.pk %}" class="card-link" style="color: mediumpurple">More</a>
+                        <a href="{% url "webapp:task_view" task.pk %}" class="card-link" style="color: mediumpurple">More</a>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
         {% include "partial/pagination.html" %}
     {% endif %}
     </div>
-    <a href="{% url "project_index" %}" style="color: mediumpurple">To Main</a>
+    <a href="{% url "webapp:project_index" %}" style="color: mediumpurple">To Main</a>
 
        <div class="modal fade" id="projectDeleteModal" tabindex="-1" aria-labelledby="projectDeleteModalLabel"
          aria-hidden="true">
@@ -60,7 +60,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <form action="{% url "delete_project" project.pk %}" method="post">
+                    <form action="{% url "webapp:project_view" project.pk %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Yes</button>
                     </form>

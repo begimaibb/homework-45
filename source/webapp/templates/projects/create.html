@@ -1,4 +1,4 @@
-{% extends "tasks/base.html" %}
+{% extends "tasks/../base.html" %}
 {% block title %}Create project{% endblock %}
 
 {% block content %}
@@ -6,8 +6,8 @@
     <form action="" method="post">
         {% include "partial/form.html" with button_text="Create" %}
     </form>
-    <a href="{% url "index" %}">To Main</a>
-    <a href="{% url "project_index" %}">To Projects</a>
+    <a href="{% url "webapp:index" %}">To Main</a>
+    <a href="{% url "webapp:project_index" %}">To Projects</a>
 
 {% endblock %}
 
