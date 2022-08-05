@@ -82,7 +82,7 @@ class UpdateProjectView(LoginRequiredMixin, UpdateView):
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = "projects/delete.html"
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('webapp:index')
     form_class = ProjectDeleteForm
 
     # def post(self, request, *args, **kwargs):

@@ -80,7 +80,7 @@ class UpdateTaskView(LoginRequiredMixin, UpdateView):
 class DeleteTaskView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "tasks/delete.html"
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('webapp:index')
     form_class = TaskDeleteForm
 
     # def post(self, request, *args, **kwargs):

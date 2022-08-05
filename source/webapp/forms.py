@@ -61,7 +61,7 @@ class TaskDeleteForm(forms.ModelForm):
 
 class ProjectDeleteForm(forms.ModelForm):
     class Meta:
-        model = Task
+        model = Project
         fields = ["name"]
 
     def clean_title(self):
