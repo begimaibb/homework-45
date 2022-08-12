@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -55,9 +55,12 @@ class TaskView(TemplateView):
         return super().get_context_data(**kwargs)
 
 
-class CreateTaskView(LoginRequiredMixin, CreateView):
+class CreateTaskView(PermissionRequiredMixin, CreateView):
     form_class = TaskForm
     template_name = "tasks/create.html"
+
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.add_task")
 
     # def form_valid(self, form):
     #     task = form.save(commit=False)
@@ -71,6 +74,9 @@ class UpdateTaskView(LoginRequiredMixin, UpdateView):
     template_name = "tasks/update.html"
     model = Task
 
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.change_task")
+
     # def get_form_class(self):
     #     if self.request.GET.get("is_admin"):
     #         return TaskForm
@@ -82,6 +88,9 @@ class DeleteTaskView(LoginRequiredMixin, DeleteView):
     template_name = "tasks/delete.html"
     success_url = reverse_lazy('webapp:index')
     form_class = TaskDeleteForm
+
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.delete_task")
 
     # def post(self, request, *args, **kwargs):
     #     form = self.form_class(data=request.POST, instance=self.get_object())

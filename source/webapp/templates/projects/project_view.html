@@ -29,6 +29,21 @@
     </p>
     <h1>Project To-Do List</h1>
     <div class="row">
+        {% for user in users %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user.username }}</h5>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+        {% endfor %}
+    {% if is_paginated %}
+        {% include "partial/pagination.html" %}
+    {% endif %}
+    </div>
+    <div class="row">
         {% for task in tasks %}
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card">

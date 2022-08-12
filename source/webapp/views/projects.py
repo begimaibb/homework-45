@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -57,9 +57,14 @@ class ProjectView(DetailView):
         return context
 
 
-class CreateProjectView(LoginRequiredMixin, CreateView):
+class CreateProjectView(PermissionRequiredMixin, CreateView):
     form_class = ProjectForm
     template_name = "projects/create.html"
+
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.add_project")
+               # or \
+               # self.request.user == self.get_object().user
 
     # def form_valid(self, form):
     #     project = form.save(commit=False)
@@ -68,22 +73,27 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
     #     return redirect("project_view", pk=project.pk)
 
 
-class UpdateProjectView(LoginRequiredMixin, UpdateView):
+class UpdateProjectView(PermissionRequiredMixin, UpdateView):
     form_class = ProjectForm
     template_name = "projects/update.html"
     model = Project
 
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.change_project")
     # def get_form_class(self):
     #     if self.request.GET.get("is_admin"):
     #         return ProjectForm
     #     return UserProjectForm
 
 
-class DeleteProjectView(LoginRequiredMixin, DeleteView):
+class DeleteProjectView(PermissionRequiredMixin, DeleteView):
     model = Project
     template_name = "projects/delete.html"
     success_url = reverse_lazy('webapp:index')
     form_class = ProjectDeleteForm
+
+    def has_permission(self):
+        return self.request.user.has_perm("webapp.delete_project")
 
     # def post(self, request, *args, **kwargs):
     #     form = self.form_class(data=request.POST, instance=self.get_object())
@@ -92,3 +102,7 @@ class DeleteProjectView(LoginRequiredMixin, DeleteView):
     #     else:
     #         return self.get(request, *args, **kwargs)
 
+
+# class DeleteUser(LoginRequiredMixin, DeleteView):
+#     model = Project.user
+#     success_url = reverse_lazy('webapp:project_index')

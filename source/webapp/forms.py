@@ -69,6 +69,3 @@ class ProjectDeleteForm(forms.ModelForm):
         if self.instance.name != name:
             raise ValidationError("Names do not match")
         return name
-
-
-
