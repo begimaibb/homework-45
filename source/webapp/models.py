@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
@@ -41,9 +42,10 @@ class Project(models.Model):
     date_finished = models.DateField(auto_now_add=False, null=True, blank=True, verbose_name="Date finished")
     name = models.CharField(max_length=50, null=False, blank=False, verbose_name="Name")
     description = models.TextField(max_length=100, null=True, blank=False, verbose_name="Description")
+    user = models.ManyToManyField(get_user_model(), related_name="projects", blank=True)
 
     def __str__(self):
-        return f"{self.id} {self.name}: {self.description}"
+        return f"{self.id} {self.name}: {self.description} {self.user.username}"
 
     def get_absolute_url(self):
         return reverse("webapp:project_view", kwargs={"pk": self.pk})
