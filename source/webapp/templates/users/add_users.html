@@ -1,0 +1,11 @@
+{% extends "tasks/../base.html" %}
+{% block title %}Add user{% endblock %}
+
+{% block content %}
+    <h1>Add user</h1>
+    <form action="" method="post">
+        {% include "partial/form.html" with button_text="Add" %}
+    </form>
+    <a href="{% url "webapp:project_index" %}">To Main</a>
+
+{% endblock %}

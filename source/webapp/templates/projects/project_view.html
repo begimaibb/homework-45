@@ -1,16 +1,29 @@
 {% extends "tasks/../base.html" %}
 {% block nav %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url "webapp:create_project" %}">Create project</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url "webapp:update_project" project.pk %}">Edit</a>
-    </li>
-    <li class="nav-item">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">
-            Delete
-        </button>
-    </li>
+    {% if request.user.is_authenticated %}
+        {% if perms.webapp.add_project %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "webapp:create_project" %}">Create project</a>
+            </li>
+        {% endif %}
+        {% if perms.webapp.change_project %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "webapp:update_project" project.pk %}">Edit</a>
+            </li>
+        {% endif %}
+        {% if perms.webapp.delete_project %}
+            <li class="nav-item">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">
+                    Delete
+                </button>
+            </li>
+        {% endif %}
+        {% if perms.webapp.add_user %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "webapp:add_user" project.pk %}">Add user</a>
+        </li>
+    {% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -27,6 +40,19 @@
     <p>
         Date finished: {{ project.date_finished }}
     </p>
+        <h1>User List</h1>
+    <ul>
+    {% for user in users %}
+        <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <li>{{ project.user }}</li>
+                        </div>
+                    </div>
+    {% empty %}
+        <li>No users yet</li>
+    {% endfor %}
+    </ul>
     <h1>Project To-Do List</h1>
     <div class="row">
         {% for user in users %}

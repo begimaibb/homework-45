@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 # Create your views here.
 from django.utils.http import urlencode
@@ -9,6 +9,8 @@ from django.utils.http import urlencode
 from webapp.forms import TaskForm, SearchForm, ProjectForm, UserProjectForm, ProjectDeleteForm
 from webapp.models import Task, Project
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from accounts.forms import MyUserCreationForm
 
 
 class ProjectIndexView(ListView):
@@ -61,16 +63,21 @@ class CreateProjectView(PermissionRequiredMixin, CreateView):
     form_class = ProjectForm
     template_name = "projects/create.html"
 
+    def form_valid(self, form):
+        project = form.save(commit=False)
+        project.save()
+        user = Project.user.all()
+        form.save_m2m()
+        form.instance.user = user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("webapp:project_index")
+
     def has_permission(self):
         return self.request.user.has_perm("webapp.add_project")
                # or \
                # self.request.user == self.get_object().user
-
-    # def form_valid(self, form):
-    #     project = form.save(commit=False)
-    #     project.save()
-    #     form.save_m2m()
-    #     return redirect("project_view", pk=project.pk)
 
 
 class UpdateProjectView(PermissionRequiredMixin, UpdateView):
@@ -106,3 +113,6 @@ class DeleteProjectView(PermissionRequiredMixin, DeleteView):
 # class DeleteUser(LoginRequiredMixin, DeleteView):
 #     model = Project.user
 #     success_url = reverse_lazy('webapp:project_index')
+
+
+

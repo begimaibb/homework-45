@@ -51,7 +51,7 @@ class Project(models.Model):
         return reverse("webapp:project_view", kwargs={"pk": self.pk})
 
     def upper(self):
-        return self.title.upper()
+        return self.name.upper()
 
     class Meta:
         db_table = "projects"

@@ -37,6 +37,7 @@ class DeleteView(View):
     def get_redirect_url(self):
         return self.redirect_url
 
+
 class UpdateView(View):
    form_class = None
    template_name = None
