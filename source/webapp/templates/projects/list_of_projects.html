@@ -1,29 +1,15 @@
 {% extends "tasks/../base.html" %}
 {% load static %}
 {% block nav %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url "webapp:create_project" %}">Create project</a>
-    </li>
+    {% if perms.webapp.add_project %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url "webapp:create_project" %}">Create project</a>
+        </li>
+    {% endif %}
 {% endblock %}
 {% block content %}
-    {% include "partial/search.html" %}
-    <h1>Project List</h1>
-    <div class="row">
-        {% for project in projects %}
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-{#                        <p>Type(s): {% for type in task.type.all %}{{ type.type_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>#}
-                        <h5 class="card-title">{{ project.name }}</h5>
-                        <a href="{% url "webapp:project_view" project.pk %}" class="card-link" style="color: mediumpurple">More</a>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-        {% endfor %}
-    {% if is_paginated %}
-        {% include "partial/pagination.html" %}
-    {% endif %}
+    <div class="mt-3">
+        {% include "partial/search.html" %}
     </div>
-
+    {% include "partial/project_list_partial.html" %}
 {% endblock %}
