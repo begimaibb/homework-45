@@ -17,7 +17,7 @@ class MyUserCreationForm(forms.ModelForm):
         password_confirm = cleaned_data.get('password_confirm')
         first_name = cleaned_data.get('first_name')
         last_name = cleaned_data.get('last_name')
-        if first_name == '' or last_name == '':
+        if first_name == '' and last_name == '':
             self.add_error("first_name", ValidationError("Your name or last name is blank"))
         if password != password_confirm:
             self.add_error('password',  ValidationError("Passwords do not match"))
