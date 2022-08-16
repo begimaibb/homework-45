@@ -10,8 +10,6 @@ from webapp.forms import TaskForm, SearchForm, ProjectForm, UserProjectForm, Pro
 from webapp.models import Task, Project
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from accounts.forms import MyUserCreationForm
-
 
 class ProjectIndexView(ListView):
     model = Task
@@ -63,16 +61,16 @@ class CreateProjectView(PermissionRequiredMixin, CreateView):
     form_class = ProjectForm
     template_name = "projects/create.html"
 
-    def form_valid(self, form):
-        project = form.save(commit=False)
-        project.save()
-        user = Project.user.all()
-        form.save_m2m()
-        form.instance.user = user
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse("webapp:project_index")
+    # def form_valid(self, form):
+    #     project = form.save(commit=False)
+    #     project.save()
+    #     user = Project.user.all()
+    #     form.save_m2m()
+    #     form.instance.user = user
+    #     return super().form_valid(form)
+    #
+    # def get_success_url(self):
+    #     return reverse("webapp:project_index")
 
     def has_permission(self):
         return self.request.user.has_perm("webapp.add_project")

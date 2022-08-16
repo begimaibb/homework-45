@@ -18,7 +18,6 @@ class UserProjectForm(forms.ModelForm):
 
 
 class TaskForm(forms.ModelForm):
-
     class Meta:
         model = Task
         fields = ["name", "description", "status", "type", "project"]
@@ -41,7 +40,6 @@ class SearchForm(forms.Form):
 
 
 class ProjectForm(forms.ModelForm):
-
     class Meta:
         model = Project
         fields = ["name", "description", "date_started", "date_finished"]
@@ -69,3 +67,15 @@ class ProjectDeleteForm(forms.ModelForm):
         if self.instance.name != name:
             raise ValidationError("Names do not match")
         return name
+
+
+# class ProjectUserDeleteForm(forms.ModelForm):
+#     class Meta:
+#         model = Project.user
+#         fields = ["username"]
+#
+#     def clean_title(self):
+#         username = self.cleaned_data.get("username")
+#         if self.instance.username != username:
+#             raise ValidationError("Usernames do not match")
+#         return username
