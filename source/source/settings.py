@@ -123,6 +123,9 @@ LOGIN_URL = "accounts:login"
 LOGOUT_REDIRECT_URL = "webapp:project_index"
 LOGIN_REDIRECT_URL = "webapp:project_index"
 
+MEDIA_ROOT = Path.joinpath(BASE_DIR, "uploads")
+MEDIA_URL = "/media/"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

@@ -1,5 +1,6 @@
 import re
 from django import forms
+from django.contrib.auth import get_user_model
 from webapp.models import Type, Task, Project
 from django.core.exceptions import ValidationError
 from django.forms import widgets
@@ -69,13 +70,18 @@ class ProjectDeleteForm(forms.ModelForm):
         return name
 
 
-# class ProjectUserDeleteForm(forms.ModelForm):
-#     class Meta:
-#         model = Project.user
-#         fields = ["username"]
-#
-#     def clean_title(self):
-#         username = self.cleaned_data.get("username")
-#         if self.instance.username != username:
-#             raise ValidationError("Usernames do not match")
-#         return username
+class ChangeUsersInProjectForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        pk = kwargs.pop("pk")
+        super().__init__(*args, **kwargs)
+        self.fields['users'].queryset = get_user_model().objects.exclude(pk=pk)
+
+    class Meta:
+        model = Project
+        fields = ("users", )
+        widgets = {"users": widgets.CheckboxSelectMultiple}
+
+
+
+

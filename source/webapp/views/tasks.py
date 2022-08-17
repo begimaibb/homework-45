@@ -11,7 +11,7 @@ from webapp.models import Task
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, DeleteView, UpdateView
 
 
-class IndexView(ListView):
+class TaskIndex(ListView):
     model = Task
     template_name = "tasks/list_of_tasks.html"
     context_object_name = "tasks"
@@ -55,7 +55,7 @@ class TaskView(TemplateView):
         return super().get_context_data(**kwargs)
 
 
-class CreateTaskView(PermissionRequiredMixin, CreateView):
+class CreateTask(PermissionRequiredMixin, CreateView):
     form_class = TaskForm
     template_name = "tasks/create.html"
 
@@ -69,7 +69,7 @@ class CreateTaskView(PermissionRequiredMixin, CreateView):
     #     return redirect("webapp:project_view", pk=task.pk)
 
 
-class UpdateTaskView(LoginRequiredMixin, UpdateView):
+class UpdateTask(LoginRequiredMixin, UpdateView):
     form_class = TaskForm
     template_name = "tasks/update.html"
     model = Task
@@ -83,7 +83,7 @@ class UpdateTaskView(LoginRequiredMixin, UpdateView):
     #     return UserTaskForm
 
 
-class DeleteTaskView(LoginRequiredMixin, DeleteView):
+class DeleteTask(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "tasks/delete.html"
     success_url = reverse_lazy('webapp:index')

@@ -6,12 +6,12 @@ from django.urls import reverse_lazy, reverse
 # Create your views here.
 from django.utils.http import urlencode
 
-from webapp.forms import TaskForm, SearchForm, ProjectForm, UserProjectForm, ProjectDeleteForm
+from webapp.forms import TaskForm, SearchForm, ProjectForm, UserProjectForm, ProjectDeleteForm, ChangeUsersInProjectForm
 from webapp.models import Task, Project
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
-class ProjectIndexView(ListView):
+class ProjectIndex(ListView):
     model = Task
     template_name = "projects/list_of_projects.html"
     context_object_name = "projects"
@@ -57,9 +57,20 @@ class ProjectView(DetailView):
         return context
 
 
-class CreateProjectView(PermissionRequiredMixin, CreateView):
+class CreateProject(PermissionRequiredMixin, CreateView):
     form_class = ProjectForm
     template_name = "projects/create.html"
+    permission_required = "webapp.add_project"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.object.users.add(self.request.user)
+        return response
+
+    def get_success_url(self):
+        return reverse("webapp:project_index")
+
+
 
     # def form_valid(self, form):
     #     project = form.save(commit=False)
@@ -78,7 +89,7 @@ class CreateProjectView(PermissionRequiredMixin, CreateView):
                # self.request.user == self.get_object().user
 
 
-class UpdateProjectView(PermissionRequiredMixin, UpdateView):
+class UpdateProject(PermissionRequiredMixin, UpdateView):
     form_class = ProjectForm
     template_name = "projects/update.html"
     model = Project
@@ -91,7 +102,7 @@ class UpdateProjectView(PermissionRequiredMixin, UpdateView):
     #     return UserProjectForm
 
 
-class DeleteProjectView(PermissionRequiredMixin, DeleteView):
+class DeleteProject(PermissionRequiredMixin, DeleteView):
     model = Project
     template_name = "projects/delete.html"
     success_url = reverse_lazy('webapp:index')
@@ -108,9 +119,24 @@ class DeleteProjectView(PermissionRequiredMixin, DeleteView):
     #         return self.get(request, *args, **kwargs)
 
 
-# class DeleteUser(LoginRequiredMixin, DeleteView):
-#     model = Project.user
-#     success_url = reverse_lazy('webapp:project_index')
+class ChangeUsersInProject(PermissionRequiredMixin, UpdateView):
+    model = Project
+    template_name = "projects/change_users.html"
+    permission_required = "webapp.change_users_in_project"
+    form_class = ChangeUsersInProjectForm
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["pk"] = self.request.user.pk
+        return kwargs
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.object.users.add(self.request.user)
+        return response
 
+    # def has_permission(self):
+    #     return self.request.user.has_perm("webapp.change_users_in_project") and self.request.user in self.get_object().users.all()
+
+    def get_success_url(self):
+        return reverse("webapp:project_index")

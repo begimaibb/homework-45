@@ -18,9 +18,9 @@
                 </button>
             </li>
         {% endif %}
-        {% if perms.webapp.add_user %}
+        {% if perms.webapp.change_users_in_project %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url "webapp:add_user" project.pk %}">Add user</a>
+            <a class="nav-link" href="{% url "webapp:change_users_in_project" project.pk %}">Change users</a>
         </li>
     {% endif %}
     {% endif %}
@@ -40,35 +40,21 @@
     <p>
         Date finished: {{ project.date_finished }}
     </p>
-        <h1>User List</h1>
-    <ul>
-    {% for user in users %}
-        <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <li>{{ project.user }}</li>
-                        </div>
-                    </div>
-    {% empty %}
-        <li>No users yet</li>
-    {% endfor %}
-    </ul>
-    <h1>Project To-Do List</h1>
+    <h3 class="my-3 text-center">Project Users</h3>
     <div class="row">
-        {% for user in users %}
+        {% for user in project.users.all %}
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">{{ user.username }}</h5>
+                        <a href="{% url "accounts:profile" user.pk %}" class="card-link" style="color: mediumpurple">{{ user.username }}</a>
+{#                        <p class="card-text">{{ user.username }}</p>#}
                     </div>
                 </div>
             </div>
         {% empty %}
         {% endfor %}
-    {% if is_paginated %}
-        {% include "partial/pagination.html" %}
-    {% endif %}
     </div>
+    <h3 class="my-3 text-center">Project To-Do List</h3>
     <div class="row">
         {% for task in tasks %}
             <div class="col-12 col-md-6 col-lg-4">
