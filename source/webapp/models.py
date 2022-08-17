@@ -42,10 +42,10 @@ class Project(models.Model):
     date_finished = models.DateField(auto_now_add=False, null=True, blank=True, verbose_name="Date finished")
     name = models.CharField(max_length=50, null=False, blank=False, verbose_name="Name")
     description = models.TextField(max_length=100, null=True, blank=False, verbose_name="Description")
-    user = models.ManyToManyField(get_user_model(), related_name="projects", blank=True)
+    users = models.ManyToManyField(get_user_model(), related_name="projects", blank=True)
 
     def __str__(self):
-        return f"{self.id} {self.name}: {self.description} {self.user.username}"
+        return f"{self.id} {self.name}: {self.description}"
 
     def get_absolute_url(self):
         return reverse("webapp:project_view", kwargs={"pk": self.pk})
@@ -57,6 +57,9 @@ class Project(models.Model):
         db_table = "projects"
         verbose_name = "Project"
         verbose_name_plural = "Projects"
+        permissions = [
+            ('change_users_in_project', 'Change users in project')
+        ]
 
 
 class Task(BaseModel):
